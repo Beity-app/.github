@@ -362,11 +362,14 @@ graph LR
 
 ```mermaid
 graph TB
-    subgraph "CDN"
-        CDN[CloudFront/CDN]
+    subgraph "Frontend Applications"
+        LP[landing-page]
+        MA[beity-app]
+        AD[beity-admin-dashboard]
     end
     
-    subgraph "Load Balancer"
+    subgraph "CDN & Load Balancer"
+        CDN[CloudFront/CDN]
         LB[Application Load Balancer]
     end
     
@@ -376,21 +379,15 @@ graph TB
         BE3[Backend Instance N]
     end
     
-    subgraph "Database"
+    subgraph "Database & Storage"
         DB[(RDS PostgreSQL)]
         RD[(ElastiCache Redis)]
-    end
-    
-    subgraph "Storage"
         S3[AWS S3]
     end
     
-    subgraph "Frontend Apps"
-        LP[landing-page]
-        MA[beity-app]
-        AD[beity-admin-dashboard]
-    end
-    
+    LP --> CDN
+    MA --> CDN
+    AD --> CDN
     CDN --> LB
     LB --> BE1
     LB --> BE2
@@ -404,9 +401,6 @@ graph TB
     BE1 --> S3
     BE2 --> S3
     BE3 --> S3
-    LP --> CDN
-    MA --> CDN
-    AD --> CDN
 ```
 
 ## 🔄 Data Flow
